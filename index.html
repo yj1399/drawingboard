@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <title> Drawing Board </title>
+        <link rel="stylesheet" href="drawingboard.css"/>
+
+    </head>
+    <style>
+        #div{
+            width: 200vh;
+            height: 90vh;
+            border: 1px solid black;
+
+        }
+    </style>
+    <body>
+        <div id="div"></div>
+        <br>
+        <button id="button"> Take Image </button>
+
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.6/drawingboard.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var imageBoard = new DrawingBoard.Board('div', {
+                                color: "#000",
+                    size: 30,
+                    controls: [
+                        'Color',
+                        { Size: { type: 'dropdown' } },
+                        { Navigation: { back: true, forward: true } },
+                        'DrawingMode'
+                    ],
+                    webStorage: 'local'
+            });
+            $("#button").click(function(){
+                domtoimage.toBlob(document.getElementById('div'))
+                    .then(function (blob) {
+                        window.saveAs(blob, 'screenshot.png');
+                    });
+            })
+        })
+    </script>
+</html>
